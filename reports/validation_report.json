@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-06 01:30:13",
+  "generated_at": "2026-04-06 01:49:09",
   "summary": {
     "total_items": 5,
     "passed": 2,
@@ -45,5 +45,5 @@
       ]
     }
   ],
-  "ai_summary": "3 out of 5 deliverables failed validation. Key issues include: Missing or empty field: id, Invalid naming convention, Missing or empty field: owner, Invalid status: unknown."
+  "ai_summary": "**Summary:**\n\nThe project encountered 3 failed deliverables due to missing or empty fields in the following fields:\n\n- owner\n- id\n- status\n\nThese issues need to be addressed to ensure project completion and successful delivery."
 }
