@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def check_required_fields(item, required_fields):
     errors = []
     for field in required_fields:
@@ -21,8 +23,6 @@ def check_status(item, allowed_status):
     if item.get("status") not in allowed_status:
         errors.append(f"Invalid status: {item.get('status')}")
     return errors
-
-from datetime import datetime
 
 
 def check_version(item, version_rules):

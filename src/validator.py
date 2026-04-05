@@ -25,6 +25,7 @@ def validate(data_path, rules_path):
         results.append({
             "id": item.get("id", "UNKNOWN"),
             "valid": len(errors) == 0,
+            "total_errors": len(errors),
             "errors": errors
         })
 
