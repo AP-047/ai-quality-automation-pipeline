@@ -1,0 +1,23 @@
+required_fields:
+  - id
+  - name
+  - status
+  - owner
+  - version
+  - type
+  - last_updated
+
+naming_rules:
+  name_must_contain:
+    - spec
+    - doc
+
+status_allowed:
+  - complete
+  - in_review
+
+version_rules:
+  must_start_with: "v"
+
+date_rules:
+  format: "%Y-%m-%d"
