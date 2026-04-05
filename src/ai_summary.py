@@ -1,8 +1,7 @@
 from transformers import pipeline
 
 # Load once (important)
-generator = pipeline("text2text-generation", model="google/flan-t5-base")
-
+generator = pipeline("text-generation", model="google/flan-t5-base")
 
 def generate_ai_summary(report):
     summary = report.get("summary", {})
@@ -26,7 +25,7 @@ def generate_ai_summary(report):
     - overall quality status
     """
 
-    result = generator(prompt, max_length=120, do_sample=False)
+    result = generator(prompt, max_new_tokens=120)
 
     return {
         "ai_summary": result[0]["generated_text"]

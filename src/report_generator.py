@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from src.ai_summary import generate_ai_summary
 
 
 def generate_summary(results):
@@ -18,10 +19,16 @@ def generate_summary(results):
 def generate_report(results, output_path="reports/validation_report.json"):
     summary = generate_summary(results)
 
+    ai_part = generate_ai_summary({
+        "summary": summary,
+        "details": results
+    })
+
     report = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "summary": summary,
-        "details": results
+        "details": results,
+        **ai_part  # merge AI output
     }
 
     with open(output_path, "w") as f:
