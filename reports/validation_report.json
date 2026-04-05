@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-04-05 18:25:28",
+  "summary": {
+    "total_items": 5,
+    "passed": 2,
+    "failed": 3,
+    "pass_rate": 40.0
+  },
+  "details": [
+    {
+      "id": "DOC001",
+      "valid": true,
+      "total_errors": 0,
+      "errors": []
+    },
+    {
+      "id": "DOC002",
+      "valid": true,
+      "total_errors": 0,
+      "errors": []
+    },
+    {
+      "id": "",
+      "valid": false,
+      "total_errors": 1,
+      "errors": [
+        "Missing or empty field: id"
+      ]
+    },
+    {
+      "id": "DOC004",
+      "valid": false,
+      "total_errors": 2,
+      "errors": [
+        "Invalid naming convention",
+        "Invalid status: unknown"
+      ]
+    },
+    {
+      "id": "DOC005",
+      "valid": false,
+      "total_errors": 1,
+      "errors": [
+        "Missing or empty field: owner"
+      ]
+    }
+  ]
+}
