@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-05 23:16:18",
+  "generated_at": "2026-04-05 23:35:34",
   "summary": {
     "total_items": 5,
     "passed": 2,
@@ -45,5 +45,5 @@
       ]
     }
   ],
-  "ai_summary": "\n    You are a quality engineer.\n\n    A validation system produced this report:\n    \n    Total items: 5\n    Passed: 2\n    Failed: 3\n\n    Errors:\n    [{'id': 'DOC001', 'valid': True, 'total_errors': 0, 'errors': []}, {'id': 'DOC002', 'valid': True, 'total_errors': 0, 'errors': []}, {'id': '', 'valid': False, 'total_errors': 1, 'errors': ['Missing or empty field: id']}, {'id': 'DOC004', 'valid': False, 'total_errors': 2, 'errors': ['Invalid naming convention', 'Invalid status: unknown']}, {'id': 'DOC005', 'valid': False, 'total_errors': 1, 'errors': ['Missing or empty field: owner']}]\n\n    Write a short professional summary highlighting:\n    - how many failed\n    - key issues\n    - overall quality status\n    "
+  "ai_summary": "Total items: 5\n    Passed: 2\n    Failed: 3\n\n    Common issues: Invalid naming convention, Missing or empty field: id, Missing or empty field: owner, Invalid status: unknown\n\n    Write a short professional summary."
 }
