@@ -1,32 +1,38 @@
 from transformers import pipeline
 
-# Load once (important)
-generator = pipeline("text-generation", model="google/flan-t5-base")
+generator = pipeline("text2text-generation", model="google/flan-t5-base")
+
 
 def generate_ai_summary(report):
     summary = report.get("summary", {})
     details = report.get("details", [])
 
-    prompt = f"""
-    You are a quality engineer.
+    # ✅ Extract ONLY errors (clean input)
+    error_list = []
+    for item in details:
+        if not item["valid"]:
+            error_list.extend(item["errors"])
 
-    A validation system produced this report:
-    
+    error_text = ", ".join(set(error_list))
+
+    prompt = f"""
+    Summarize the following validation results in 2-3 sentences:
+
     Total items: {summary['total_items']}
     Passed: {summary['passed']}
     Failed: {summary['failed']}
 
-    Errors:
-    {details}
+    Common issues: {error_text}
 
-    Write a short professional summary highlighting:
-    - how many failed
-    - key issues
-    - overall quality status
+    Provide a concise professional summary.
     """
 
-    result = generator(prompt, max_new_tokens=120)
+    result = generator(
+        prompt,
+        max_length=80,
+        do_sample=False
+    )
 
     return {
-        "ai_summary": result[0]["generated_text"]
+        "ai_summary": result[0]["generated_text"].strip()
     }
