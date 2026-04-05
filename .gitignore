@@ -1,2 +1,6 @@
 /env-ai-quality-automation-pipeline
 /data
+
+# Python cache/bytecode artifacts
+__pycache__/
+*.py[cod]
