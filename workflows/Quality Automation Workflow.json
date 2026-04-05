@@ -1,0 +1,81 @@
+{
+  "name": "Quality Automation Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fc924109-beb8-4106-a75a-1edf2c29bd07",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/validate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "87f5db08-306f-4661-b627-1c5494f85a50",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ {\n  total_items: $json.summary.total_items,\n  passed: $json.summary.passed,\n  failed: $json.summary.failed,\n  pass_rate: $json.summary.pass_rate\n} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "80289b1c-f5cb-47e7-b0ce-a60b0fa42083",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4d4bacd7-2583-4ff5-9937-a6350cc8d182",
+  "meta": {
+    "instanceId": "a03694fd76c2aeaf5442ddb871b047cf6a7822c8a6520aecb2981ac9f4554c5f"
+  },
+  "id": "zbTfAhCvmEOZfpK3",
+  "tags": []
+}
