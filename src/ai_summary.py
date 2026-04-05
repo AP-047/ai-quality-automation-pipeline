@@ -1,51 +1,50 @@
-from transformers import pipeline
+import requests
 
-# Optional LLM (can fail silently)
-try:
-    generator = pipeline("text-generation", model="google/flan-t5-base")
-except Exception:
-    generator = None
+
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL_NAME = "phi3"
 
 
 def generate_ai_summary(report):
     summary = report.get("summary", {})
     details = report.get("details", [])
 
-    # ✅ RULE-BASED CORE (reliable)
-    failed = summary.get("failed", 0)
-    total = summary.get("total_items", 0)
-
+    # Extract errors
     error_list = []
     for item in details:
         if not item["valid"]:
             error_list.extend(item["errors"])
 
-    common_errors = list(set(error_list))[:2]
+    error_text = ", ".join(set(error_list))
 
-    base_summary = (
-        f"{failed} out of {total} deliverables failed validation. "
-        f"Key issues include: {', '.join(common_errors)}. "
-        f"Overall quality status is {'acceptable' if failed == 0 else 'needs improvement'}."
+    prompt = (
+        f"{summary['failed']} out of {summary['total_items']} deliverables failed validation. "
+        f"Key issues: {error_text}. "
+        f"Provide a short professional summary."
     )
 
-    # ✅ OPTIONAL LLM ENHANCEMENT
-    if generator:
-        try:
-            prompt = f"Improve this summary professionally:\n{base_summary}"
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json={
+                "model": MODEL_NAME,
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=10
+        )
 
-            result = generator(
-                prompt,
-                max_new_tokens=60,
-                do_sample=False
+        output = response.json()
+
+        return {
+            "ai_summary": output.get("response", "").strip()
+        }
+
+    except Exception:
+        # fallback (important)
+        return {
+            "ai_summary": (
+                f"{summary.get('failed', 0)} out of {summary.get('total_items', 0)} "
+                f"deliverables failed validation. Key issues include: {error_text}."
             )
-
-            return {
-                "ai_summary": result[0]["generated_text"].replace(prompt, "").strip()
-            }
-        except Exception:
-            pass
-
-    # fallback
-    return {
-        "ai_summary": base_summary
-    }
+        }
