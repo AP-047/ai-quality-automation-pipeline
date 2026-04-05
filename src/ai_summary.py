@@ -1,8 +1,8 @@
 import requests
 
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "phi3"
+# Ollama config
+OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
+MODEL_NAME = "gemma:2b"
 
 
 def generate_ai_summary(report):
@@ -17,10 +17,11 @@ def generate_ai_summary(report):
 
     error_text = ", ".join(set(error_list))
 
+    # Prompt (keep it short for small models)
     prompt = (
         f"{summary['failed']} out of {summary['total_items']} deliverables failed validation. "
-        f"Key issues: {error_text}. "
-        f"Provide a short professional summary."
+        f"Issues: {error_text}. "
+        f"Write a short professional summary."
     )
 
     try:
@@ -31,17 +32,28 @@ def generate_ai_summary(report):
                 "prompt": prompt,
                 "stream": False
             },
-            timeout=10
+            timeout=60
         )
+
+        print("STATUS:", response.status_code)
+        print("RAW:", response.text)
 
         output = response.json()
 
+        ai_text = output.get("response", "").strip()
+
+        # ✅ Safety check (in case model returns empty)
+        if not ai_text:
+            raise Exception("Empty response")
+
         return {
-            "ai_summary": output.get("response", "").strip()
+            "ai_summary": ai_text
         }
 
-    except Exception:
-        # fallback (important)
+    except Exception as e:
+        print("Ollama error:", str(e))
+
+        # ✅ Fallback (always reliable)
         return {
             "ai_summary": (
                 f"{summary.get('failed', 0)} out of {summary.get('total_items', 0)} "
