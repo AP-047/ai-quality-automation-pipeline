@@ -4,7 +4,6 @@ import requests
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 MODEL_NAME = "gemma:2b"
 
-
 def generate_ai_summary(report):
     summary = report.get("summary", {})
     details = report.get("details", [])
@@ -17,46 +16,35 @@ def generate_ai_summary(report):
 
     error_text = ", ".join(set(error_list))
 
-    # Prompt (keep it short for small models)
     prompt = (
         f"{summary['failed']} out of {summary['total_items']} deliverables failed validation. "
         f"Issues: {error_text}. "
-        f"Write a short professional summary."
+        f"Write ONLY 1-2 concise professional sentences."
+        f"No bullet points. No formatting. Plain text."
+        f"Do not mention 'user'. DOn not mention the exact terms from the result."
+        f"Directly start your analysis of the output. Use neutral engineering tone."
     )
 
-    try:
-        response = requests.post(
-            OLLAMA_URL,
-            json={
-                "model": MODEL_NAME,
-                "prompt": prompt,
-                "stream": False
-            },
-            timeout=60
-        )
+    response = requests.post(
+        OLLAMA_URL,
+        json={
+            "model": MODEL_NAME,
+            "prompt": prompt,
+            "stream": False
+        },
+        timeout=60
+    )
 
-        print("STATUS:", response.status_code)
-        print("RAW:", response.text)
+    print("STATUS:", response.status_code)
+    print("RAW:", response.text)
 
-        output = response.json()
+    output = response.json()
 
-        ai_text = output.get("response", "").strip()
+    ai_text = output.get("response", "").strip()
 
-        # ✅ Safety check (in case model returns empty)
-        if not ai_text:
-            raise Exception("Empty response")
+    if not ai_text:
+        raise RuntimeError("Empty response from Ollama")
 
-        return {
-            "ai_summary": ai_text
-        }
-
-    except Exception as e:
-        print("Ollama error:", str(e))
-
-        # ✅ Fallback (always reliable)
-        return {
-            "ai_summary": (
-                f"{summary.get('failed', 0)} out of {summary.get('total_items', 0)} "
-                f"deliverables failed validation. Key issues include: {error_text}."
-            )
-        }
+    return {
+        "ai_summary": ai_text
+    }
