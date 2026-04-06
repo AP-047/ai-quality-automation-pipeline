@@ -1,57 +1,66 @@
-# AI Quality Automation Pipeline
+# AI Quality Automation Pipeline for Engineering Deliverables
 
-A small FastAPI-based project that validates deliverable records against configurable rules, generates a structured report, and adds an AI-written summary using a local Ollama model.
+## Brief Description
 
-## What it does
+A rule-based and AI-assisted automation system for validating engineering deliverables.
+The system performs structured quality checks, generates validation reports, and integrates with workflow automation tools for scalable execution.
 
-- Validates JSON deliverables against YAML rules.
-- Checks required fields, naming patterns, status values, version format, and date format.
-- Generates a report with pass/fail stats and per-item validation errors.
-- Creates a short AI summary from the validation result.
-- Exposes the validation flow through a FastAPI endpoint for easy integration.
+## Problem Statement
 
-## How it works
+In engineering environments, release readiness depends on consistent validation of deliverables such as specifications, reports, and design artifacts.
+Manual validation is time-consuming, error-prone, and not scalable.
 
-1. Sample deliverables are loaded from `data/sample_deliverables.json`.
-2. Validation rules are read from `rules/validation_rules.yaml`.
-3. The rule engine checks each record and collects errors.
-4. A report is generated and written to `reports/validation_report.json`.
-5. The AI summary is created through Ollama using a local model.
+This project simulates a quality automation system that replaces manual checks with structured, repeatable validation workflows.
 
-## Run locally
+## Key Features
 
-```bash
-python -m venv env-ai-quality-automation-pipeline
-env-ai-quality-automation-pipeline\Scripts\activate
-pip install -r requirements.txt
-uvicorn api.app:app --reload
-```
+- Rule-based validation using configurable YAML rules
+- Automated checks for completeness, naming conventions, and status consistency
+- Structured report generation with summary metrics
+- REST API built with FastAPI for integration
+- Workflow orchestration using n8n
+- AI-assisted summarization using a local LLM (Ollama)
+- Fallback mechanism for reliable output generation
 
-Open:
+## Architecture Overview
 
-- `http://127.0.0.1:8000` for the health check
-- `http://127.0.0.1:8000/validate` to run the validation pipeline
-- `http://127.0.0.1:8000/docs` for the API documentation
+Data -> Validation Engine -> Report Generator -> AI Summary -> API -> n8n Workflow
 
-## Requirements
+## Tech Stack
 
-- Python 3.12+
-- `uvicorn`
-- `requests`
-- `PyYAML`
-- Ollama running locally on `http://127.0.0.1:11434`
+- Python
+- FastAPI
+- n8n
+- YAML / JSON
+- Ollama (local LLM - Gemma / Mistral)
+- Requests (API integration)
 
-## Project structure
+## How It Works
 
-- `api/app.py` - FastAPI app and endpoints
-- `src/validator.py` - Validation orchestration
-- `src/rule_engine.py` - Individual rule checks
-- `src/report_generator.py` - Report creation
-- `src/ai_summary.py` - AI summary generation
-- `data/sample_deliverables.json` - Example input data
-- `rules/validation_rules.yaml` - Validation rules
-- `workflows/Quality Automation Workflow.json` - n8n workflow that calls the API
+- Input data simulates engineering deliverables
+- YAML rules define validation logic
+- Validation engine applies rule-based checks
+- Results are aggregated into a structured report
+- AI layer generates a concise summary
+- API exposes the pipeline
+- n8n orchestrates workflow execution
 
-## Resume-friendly summary
+## Example Output
 
-This project demonstrates automated data quality validation, API development with FastAPI, rule-based processing, report generation, and AI-assisted summarization.
+The system generates:
+
+- total items
+- pass/fail counts
+- validation errors per item
+- AI-generated summary
+
+## Why This Project
+
+This project demonstrates how quality validation in engineering workflows can be automated using a combination of deterministic rules and AI-based insights.
+
+## Future Improvements
+
+- Integration with real data sources (e.g., Jira, PLM systems)
+- Advanced rule engine with dynamic configurations
+- Dashboard for visualization
+- Scalable deployment using containers
