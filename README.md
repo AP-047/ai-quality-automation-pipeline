@@ -3,24 +3,23 @@
 ## Brief Description
 
 A rule-based and AI-assisted automation system for validating engineering deliverables.
-The system performs structured quality checks, generates validation reports, and integrates with workflow automation tools for scalable execution.
+The system performs structured quality checks, generates validation reports and integrates with workflow automation tools for scalable execution.
 
 ## Problem Statement
 
-In engineering environments, release readiness depends on consistent validation of deliverables such as specifications, reports, and design artifacts.
-Manual validation is time-consuming, error-prone, and not scalable.
+In engineering environments, release readiness depends on consistent validation of deliverables such as specifications, reports and design artifacts.
+Manual validation is time-consuming, error-prone and not scalable.
 
 This project simulates a quality automation system that replaces manual checks with structured, repeatable validation workflows.
 
 ## Key Features
 
 - Rule-based validation using configurable YAML rules
-- Automated checks for completeness, naming conventions, and status consistency
+- Automated checks for completeness, naming conventions and status consistency
 - Structured report generation with summary metrics
 - REST API built with FastAPI for integration
 - Workflow orchestration using n8n
 - AI-assisted summarization using a local LLM (Ollama)
-- Fallback mechanism for reliable output generation
 
 ## Architecture Overview
 
@@ -32,7 +31,7 @@ Data -> Validation Engine -> Report Generator -> AI Summary -> API -> n8n Workfl
 - FastAPI
 - n8n
 - YAML / JSON
-- Ollama (local LLM - Gemma / Mistral)
+- Ollama (local LLM - gemma:2b)
 - Requests (API integration)
 
 ## How It Works
