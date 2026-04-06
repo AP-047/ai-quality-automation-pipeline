@@ -1,3 +1,5 @@
+"""Validation orchestration that applies all rules to each deliverable."""
+
 from src.parser import load_json, load_yaml
 from src.rule_engine import (
     check_required_fields,
@@ -8,12 +10,14 @@ from src.rule_engine import (
 )
 
 def validate(data_path, rules_path):
+    """Validate deliverables from data_path using rules from rules_path."""
     data = load_json(data_path)
     rules = load_yaml(rules_path)
 
     results = []
 
     for item in data:
+        # Collect all rule violations for the current item.
         errors = []
 
         errors.extend(check_required_fields(item, rules.get("required_fields", [])))

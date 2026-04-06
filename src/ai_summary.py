@@ -1,14 +1,17 @@
+"""Creates a short AI summary for the generated validation report."""
+
 import requests
 
-# Ollama config
+# Local Ollama endpoint and model used for summary generation.
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 MODEL_NAME = "gemma:2b"
 
 def generate_ai_summary(report):
+    """Call Ollama and return a short text summary for report findings."""
     summary = report.get("summary", {})
     details = report.get("details", [])
 
-    # Extract errors
+    # Collect all validation errors from failed items.
     error_list = []
     for item in details:
         if not item["valid"]:
@@ -25,6 +28,7 @@ def generate_ai_summary(report):
         f"Directly start your analysis of the output. Use neutral engineering tone."
     )
 
+    # Send the prompt to Ollama and parse the generated text.
     response = requests.post(
         OLLAMA_URL,
         json={

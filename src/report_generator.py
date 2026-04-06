@@ -1,9 +1,12 @@
+"""Builds summary statistics and writes the final validation report."""
+
 import json
 from datetime import datetime
 from src.ai_summary import generate_ai_summary
 
 
 def generate_summary(results):
+    """Return aggregate pass/fail metrics for validated items."""
     total = len(results)
     passed = sum(1 for r in results if r["valid"])
     failed = total - passed
@@ -17,8 +20,10 @@ def generate_summary(results):
 
 
 def generate_report(results, output_path="reports/validation_report.json"):
+    """Create full report payload, save it to disk, and return it."""
     summary = generate_summary(results)
 
+    # Generate a short AI-written summary based on report data.
     ai_part = generate_ai_summary({
         "summary": summary,
         "details": results
@@ -28,7 +33,7 @@ def generate_report(results, output_path="reports/validation_report.json"):
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "summary": summary,
         "details": results,
-        **ai_part  # merge AI output
+        **ai_part  # Merge AI output into the final report.
     }
 
     with open(output_path, "w") as f:

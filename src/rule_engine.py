@@ -1,6 +1,9 @@
+"""Individual validation rules used by the main validator."""
+
 from datetime import datetime
 
 def check_required_fields(item, required_fields):
+    """Return errors for missing or empty required fields."""
     errors = []
     for field in required_fields:
         if field not in item or not item[field]:
@@ -9,6 +12,7 @@ def check_required_fields(item, required_fields):
 
 
 def check_naming_rules(item, naming_rules):
+    """Return an error when name does not match required keywords."""
     errors = []
     name = item.get("name", "").lower()
 
@@ -19,6 +23,7 @@ def check_naming_rules(item, naming_rules):
 
 
 def check_status(item, allowed_status):
+    """Return an error when status is not in allowed values."""
     errors = []
     if item.get("status") not in allowed_status:
         errors.append(f"Invalid status: {item.get('status')}")
@@ -26,6 +31,7 @@ def check_status(item, allowed_status):
 
 
 def check_version(item, version_rules):
+    """Return an error when version format does not meet rule prefix."""
     errors = []
     version = item.get("version", "")
 
@@ -36,6 +42,7 @@ def check_version(item, version_rules):
 
 
 def check_date(item, date_rules):
+    """Return an error when date does not match expected format."""
     errors = []
     date_str = item.get("last_updated", "")
 

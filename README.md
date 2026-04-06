@@ -55,15 +55,6 @@ Open http://127.0.0.1:8000/validate in your local machine browser to run the pip
 - API exposes the pipeline
 - n8n orchestrates workflow execution
 
-## Example Output
-
-The system generates:
-
-- total items
-- pass/fail counts
-- validation errors per item
-- AI-generated summary
-
 ## Why This Project
 
 This project demonstrates how quality validation in engineering workflows can be automated using a combination of deterministic rules and AI-based insights.
