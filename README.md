@@ -5,17 +5,6 @@
 A rule-based and AI-assisted automation system for validating engineering deliverables.
 The system performs structured quality checks, generates validation reports and integrates with workflow automation tools for scalable execution.
 
-## Quick Setup
-
-```bash
-python -m venv env-ai-quality-automation-pipeline
-env-ai-quality-automation-pipeline\Scripts\activate
-pip install -r requirements.txt
-uvicorn api.app:app --reload
-```
-
-Open `http://127.0.0.1:8000/validate` to run the pipeline.
-
 ## Problem Statement
 
 In engineering environments, release readiness depends on consistent validation of deliverables such as specifications, reports and design artifacts.
@@ -44,6 +33,17 @@ Data -> Validation Engine -> Report Generator -> AI Summary -> API -> n8n Workfl
 - YAML / JSON
 - Ollama (local LLM - gemma:2b)
 - Requests (API integration)
+
+## Quick Setup
+
+```bash
+python -m venv env-ai-quality-automation-pipeline
+env-ai-quality-automation-pipeline\Scripts\activate
+pip install -r requirements.txt
+uvicorn api.app:app --reload
+```
+
+Open http://127.0.0.1:8000/validate in your local machine browser to run the pipeline.
 
 ## How It Works
 
